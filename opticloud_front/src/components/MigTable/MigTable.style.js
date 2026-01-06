@@ -6,6 +6,7 @@ export const TableHeaderCell = styled(TableCell)(({ theme }) => ({
     // backgroundColor: theme.palette.grey[200],
     color: '#66898F',
     fontWeight: 'bold',
+    fontSize: '1em',
 }));
 
 // Table container styling

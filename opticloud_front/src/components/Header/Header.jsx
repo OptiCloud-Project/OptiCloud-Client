@@ -34,6 +34,11 @@ function Header() {
                 <NavButton
                   key={page}
                   onClick={handleCloseNavMenu}
+                  sx={{
+                    '&:last-child td': { borderBottom: 0 },
+                    '&:hover': { backgroundColor: 'rgba(136, 165, 170, 0.3) !important' },
+                    cursor: 'pointer'
+                  }}
                 >
                   {page}
                 </NavButton>
