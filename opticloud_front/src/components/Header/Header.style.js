@@ -5,8 +5,10 @@ import { AppBar, Box, Typography, Button } from "@mui/material";
 // Top navigation bar container
 export const NavAppBar = styled(AppBar)(({ theme }) => ({
     backgroundColor: "#FFFF", // white background
+    position: "sticky",
     color: "#111718", // primary color text
     boxShadow: 'none', // Remove box shadow
+    width: '100%',
 }));
 
 // Navigation tabs (desktop links)

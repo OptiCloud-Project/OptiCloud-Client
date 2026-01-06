@@ -11,9 +11,10 @@ export const TableHeaderCell = styled(TableCell)(({ theme }) => ({
 
 // Table container styling
 export const MigTableContainer = styled("div")`
+    marginLeft: auto;
     background-color: #FFFFFF;
     display: flex;
     justify-content: flex-start;
-    width:100%;
+    width: 60%;
     `;
 

@@ -23,7 +23,7 @@ function Header() {
   return (
     <>
       <NavAppBar>
-        <Container maxWidth="xl">
+        <Container maxWidth="100%">
           <Toolbar disableGutters>
             <LogoContainer>
               <LogoStyle src={logo} alt="logo" />
