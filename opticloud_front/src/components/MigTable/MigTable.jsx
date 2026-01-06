@@ -7,6 +7,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TableHeaderCell, MigTableContainer } from './MigTable.style';
 import ModalComponent from '../ModalComponent/ModalComponent.jsx';
+import MigrationDetails from '../MigrationDetails/MigrationDetails.jsx';
 
 function createData(name, size, tier, status, integrity) {
   return { name, size, tier, status, integrity };
@@ -54,7 +55,7 @@ export default function MigTable() {
             <TableRow
               key={row.name}
               onClick={() => handleRowClick(row)}
-              sx={{ 
+              sx={{
                 '&:last-child td': { borderBottom: 0 },
                 '&:hover': { backgroundColor: 'rgba(136, 165, 170, 0.3) !important' },
                 cursor: 'pointer'
@@ -71,11 +72,20 @@ export default function MigTable() {
           ))}
         </TableBody>
       </Table>
-      <ModalComponent 
-        open={modalOpen} 
-        onClose={handleCloseModal} 
-        rowData={selectedRow} 
-      />
+      <ModalComponent
+        open={modalOpen}
+        onClose={handleCloseModal}
+      >
+        {selectedRow && (
+          <MigrationDetails
+            fileName={selectedRow.name}
+            currentStage="Comparing Checksums"
+            sourceHash="a1b2c3d4e5f6g7h8i9j0"
+            destinationHash="a1b2c3d4e5f6g7h8i9j0"
+            percentage={65}
+          />
+        )}
+      </ModalComponent>
     </MigTableContainer>
   );
 }

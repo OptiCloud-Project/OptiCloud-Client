@@ -1,7 +1,5 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
 const style = {
@@ -25,15 +23,6 @@ export default function ModalComponent({ open, onClose, children }) {
             aria-describedby="modal-modal-description"
         >
             <Box sx={style}>
-                {/* <Typography id="modal-modal-title" variant="h6" component="h2">
-                    {rowData?.name || 'File Details'}
-                </Typography>
-                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                    Size: {rowData?.size}<br />
-                    Tier: {rowData?.tier}<br />
-                    Status: {rowData?.status}<br />
-                    Integrity: {rowData?.integrity}
-                </Typography> */}
                 {children}
             </Box>
         </Modal>
