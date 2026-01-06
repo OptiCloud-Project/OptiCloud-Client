@@ -1,7 +1,7 @@
 // import { useState, useEffect } from "react";
 // import { useUser } from "../../Contex/UserContex";
 import Header from "../../components/Header/Header.jsx";
-// import NavBar from "../../components/NavBar/NavBar.jsx";
+import MigTable from "../../components/MigTable/MigTable.jsx";
 
 const Dashboard = ({ onLogout, onGoToTasks }) => {
     // const { user } = useUser();
@@ -9,6 +9,7 @@ const Dashboard = ({ onLogout, onGoToTasks }) => {
     return (
         <div id="dashboard-page">
             <Header />
+            <MigTable />
         </div>
     );
 }
