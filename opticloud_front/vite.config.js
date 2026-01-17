@@ -10,4 +10,18 @@ export default defineConfig({
       },
     }),
   ],
+  optimizeDeps: {
+    force: true, // Force re-optimization
+    include: [
+      '@mui/material',
+      '@mui/icons-material',
+      '@emotion/react',
+      '@emotion/styled'
+    ]
+  },
+  server: {
+    hmr: {
+      overlay: true
+    }
+  }
 })

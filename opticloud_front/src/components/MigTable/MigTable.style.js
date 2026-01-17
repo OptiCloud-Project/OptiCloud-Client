@@ -15,6 +15,7 @@ export const MigTableContainer = styled("div")`
     background-color: #FFFFFF;
     display: flex;
     justify-content: flex-start;
-    width: 60%;
+    width: 100%;
+    max-width: 1200px;
     `;
 
