@@ -333,10 +333,9 @@ export default function MigTable({ refreshTrigger }) {
         {selectedFile && fileDetails && (
           <MigrationDetails
             fileName={selectedFile.name}
-            currentStage={fileDetails.migrationStatus === 'VERIFYING' ? 'Comparing Checksums' : fileDetails.migrationStatus === 'PROCESSING' ? 'Copying File' : 'Idle'}
-            sourceHash={fileDetails.checksum || 'Not calculated yet'}
-            destinationHash={fileDetails.checksum || 'Not calculated yet'}
-            percentage={getMigrationPercentage(selectedFile)}
+            sourceChecksumBeforeMigration={fileDetails.sourceChecksumBeforeMigration}
+            targetChecksumAfterMigration={fileDetails.targetChecksumAfterMigration}
+            migrationStatus={fileDetails.migrationStatus}
           />
         )}
       </ModalComponent>
