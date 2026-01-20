@@ -69,7 +69,13 @@ export default function StorageCostDetailsModal({
         <Box sx={{ mb: 3 }}>
           <Typography
             variant="h6"
-            sx={{ mb: 2, color: "#111718", fontWeight: 600 }}
+            sx={{
+              mb: 2,
+              color: "#2e7d32", // success green
+              fontWeight: 700,
+              textDecoration: "underline",
+              textUnderlineOffset: 4,
+            }}
           >
             Total Cost: ${totalCost.toFixed(2)}
           </Typography>
