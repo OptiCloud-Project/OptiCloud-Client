@@ -4,6 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import logo from '../../assets/OptiCloud_Logo.png';
 import UserInHeader from './UserInHeader/UserInHeader.jsx';
+import StorageCostDisplay from '../StorageCost/StorageCostDisplay.jsx';
 
 import {
   NavAppBar,
@@ -44,7 +45,10 @@ function Header() {
                 </NavButton>
               ))}
             </Box>
-            <UserInHeader></UserInHeader>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <StorageCostDisplay />
+              <UserInHeader></UserInHeader>
+            </Box>
           </Toolbar>
         </Container>
         <LineStyle>
