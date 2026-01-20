@@ -30,7 +30,8 @@ function Header() {
               <LogoStyle src={logo} alt="logo" />
             </LogoContainer>
 
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {/* Left: Navigation (Dashboard) */}
+            <Box sx={{ ml: 2, display: { xs: 'none', md: 'flex' } }}>
               {pages.map((page) => (
                 <NavButton
                   key={page}
@@ -45,8 +46,14 @@ function Header() {
                 </NavButton>
               ))}
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+
+            {/* Center: Storage cost display */}
+            <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
               <StorageCostDisplay />
+            </Box>
+
+            {/* Right: User info */}
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <UserInHeader></UserInHeader>
             </Box>
           </Toolbar>
