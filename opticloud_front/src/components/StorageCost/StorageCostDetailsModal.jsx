@@ -93,7 +93,12 @@ export default function StorageCostDetailsModal({
                 <Box key={tier} sx={{ minWidth: 150 }}>
                   <Typography
                     variant="body2"
-                    sx={{ fontWeight: 600, color: "#66898F" }}
+                    sx={{
+                      fontWeight: 600,
+                      color: "#66898F",
+                      textDecoration: "underline",
+                      textUnderlineOffset: 3,
+                    }}
                   >
                     {tier} Tier:
                   </Typography>
