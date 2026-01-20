@@ -156,3 +156,39 @@ export const migrateFile = async (id) => {
     throw error;
   }
 };
+
+/**
+ * Simulate last access date 30 days ago for a specific file
+ * @param {string} id - File ID
+ * @returns {Promise<Object>}
+ */
+export const simulatePast30Days = async (id) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/files/${id}/simulate-last-access-30-days`, {
+      method: 'POST'
+    });
+
+    if (!response.ok) {
+      // Try to parse JSON error, but fall back to text (e.g. HTML error page)
+      let errorMessage = 'Failed to simulate last access date';
+      try {
+        const error = await response.json();
+        errorMessage = error.error || error.details || errorMessage;
+      } catch {
+        const text = await response.text();
+        // Common case: HTML error page starting with <!DOCTYPE
+        if (text && text.trim().startsWith('<')) {
+          errorMessage = `Server returned HTML (status ${response.status}) - route may not exist or server not restarted`;
+        } else if (text) {
+          errorMessage = text;
+        }
+      }
+      throw new Error(errorMessage);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error simulating last access date:', error);
+    throw error;
+  }
+};

@@ -24,7 +24,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { TableHeaderCell, MigTableContainer } from './MigTable.style';
 import ModalComponent from '../ModalComponent/ModalComponent.jsx';
 import MigrationDetails from '../MigrationDetails/MigrationDetails.jsx';
-import { getFiles, getFileById, deleteFile, downloadFile, migrateFile } from '../../services/api.js';
+import { getFiles, getFileById, deleteFile, downloadFile, migrateFile, simulatePast30Days } from '../../services/api.js';
 
 export default function MigTable({ refreshTrigger }) {
   const [files, setFiles] = useState([]);
@@ -206,6 +206,20 @@ export default function MigTable({ refreshTrigger }) {
     setFileDetails(null);
   };
 
+  const handleSimulatePast30Days = async (file, e) => {
+    e.stopPropagation();
+    setActionLoading({ ...actionLoading, [file.id]: 'simulate' });
+    try {
+      await simulatePast30Days(file.id);
+      showSnackbar('Simulated lastAccessDate to 30 days ago', 'success');
+      await fetchFiles();
+    } catch (err) {
+      showSnackbar(err.message || 'Failed to simulate last access date', 'error');
+    } finally {
+      setActionLoading({ ...actionLoading, [file.id]: null });
+    }
+  };
+
   if (loading) {
     return (
       <MigTableContainer component={Paper}>
@@ -266,7 +280,7 @@ export default function MigTable({ refreshTrigger }) {
                 <TableCell align="right" sx={{ py: 0.5 }}>{getStatusDisplay(file)}</TableCell>
                 <TableCell align="right" sx={{ py: 0.5 }}>{getIntegrityDisplay(file)}</TableCell>
                 <TableCell align="center" sx={{ py: 0.5 }} onClick={(e) => e.stopPropagation()}>
-                  <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'center' }}>
+                  <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'center', flexWrap: 'wrap' }}>
                     <Tooltip title="View Details">
                       <IconButton
                         size="small"
@@ -319,6 +333,25 @@ export default function MigTable({ refreshTrigger }) {
                         )}
                       </IconButton>
                     </Tooltip>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      onClick={(e) => handleSimulatePast30Days(file, e)}
+                      disabled={actionLoading[file.id]}
+                      sx={{
+                        ml: 0.5,
+                        textTransform: 'none',
+                        fontSize: '0.7rem',
+                        borderColor: '#66898F',
+                        color: '#66898F',
+                        '&:hover': {
+                          borderColor: '#557377',
+                          backgroundColor: 'rgba(102, 137, 143, 0.06)'
+                        }
+                      }}
+                    >
+                      {actionLoading[file.id] === 'simulate' ? 'Simulating...' : 'Simulate Past 30 days'}
+                    </Button>
                   </Box>
                 </TableCell>
               </TableRow>
