@@ -77,15 +77,22 @@ export default function StorageCostDisplay() {
       <Button
         onClick={handleClick}
         sx={{
-          color: '#66898F',
+          color: '#2e7d32',
           textTransform: 'none',
           fontSize: '0.875rem',
           '&:hover': {
-            backgroundColor: 'rgba(102, 137, 143, 0.1)'
+            backgroundColor: 'rgba(46, 125, 50, 0.08)'
           }
         }}
       >
-        <Typography variant="body2" sx={{ fontWeight: 600 }}>
+        <Typography
+          variant="body2"
+          sx={{
+            fontWeight: 700,
+            textDecoration: 'underline',
+            textUnderlineOffset: 3
+          }}
+        >
           Storage Cost: ${totalCost.toFixed(2)}
         </Typography>
       </Button>
