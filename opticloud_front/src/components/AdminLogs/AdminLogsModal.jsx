@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -44,10 +44,23 @@ export default function AdminLogsModal({ open, onClose }) {
   }, [logs]);
 
   const getLevelColor = (level, text) => {
-    if (text && text.includes('[Recovery]')) return '#d32f2f';
+    if (text && text.includes('[Recovery]')) return '#ff0000';
+    if (text && text.toLowerCase().includes('checksum')) return '#60B360';
     if (level === 'error') return '#d32f2f';
     if (level === 'warn') return '#ed6c02';
     return '#ffffff';
+  };
+
+  const getColoredFragments = (str) => {
+    if (!str) return [str];
+    const parts = str.split(/(Hot|Cold|Warm)/gi);
+    return parts.map((part, idx) => {
+      const lower = part.toLowerCase();
+      if (lower === 'hot') return <Box key={idx} component="span" sx={{ color: '#d32f2f', fontWeight: 600 }}>{part}</Box>;
+      if (lower === 'cold') return <Box key={idx} component="span" sx={{ color: '#1976d2', fontWeight: 600 }}>{part}</Box>;
+      if (lower === 'warm') return <Box key={idx} component="span" sx={{ color: '#ed6c02', fontWeight: 600 }}>{part}</Box>;
+      return <React.Fragment key={idx}>{part}</React.Fragment>;
+    });
   };
 
   return (
@@ -93,7 +106,7 @@ export default function AdminLogsModal({ open, onClose }) {
                 mb: 0.25
               }}
             >
-              [{entry.ts}] {entry.level}: {entry.text}
+              {getColoredFragments(`[${entry.ts}] ${entry.level}: ${entry.text}`)}
             </Box>
           ))}
         </Box>
