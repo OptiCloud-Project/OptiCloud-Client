@@ -35,7 +35,12 @@ export default function MigTable({ refreshTrigger }) {
   const [fileDetails, setFileDetails] = useState(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [fileToDelete, setFileToDelete] = useState(null);
-  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'success',
+    anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+  });
   const [actionLoading, setActionLoading] = useState({});
 
   // Fetch files on component mount and when refreshTrigger changes
@@ -76,14 +81,22 @@ export default function MigTable({ refreshTrigger }) {
 
   const handleDownload = async (file, e) => {
     e.stopPropagation();
-    setActionLoading({ ...actionLoading, [file.id]: 'download' });
+    setActionLoading((prev) => ({ ...prev, [file.id]: 'download' }));
     try {
+      if (file.tier === 'COLD') {
+        showSnackbar(
+          'Transferring file from Cold tier to Hot tier, then starting download.',
+          'info',
+          { vertical: 'bottom', horizontal: 'center' }
+        );
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+      }
       await downloadFile(file.id, file.name);
       showSnackbar('File downloaded successfully', 'success');
     } catch (err) {
       showSnackbar(err.message || 'Failed to download file', 'error');
     } finally {
-      setActionLoading({ ...actionLoading, [file.id]: null });
+      setActionLoading((prev) => ({ ...prev, [file.id]: null }));
     }
   };
 
@@ -147,12 +160,18 @@ export default function MigTable({ refreshTrigger }) {
     }
   };
 
-  const showSnackbar = (message, severity = 'success') => {
-    setSnackbar({ open: true, message, severity });
+  const showSnackbar = (message, severity = 'success', anchorOrigin) => {
+    setSnackbar((prev) => ({
+      ...prev,
+      open: true,
+      message,
+      severity,
+      anchorOrigin: anchorOrigin ?? { vertical: 'bottom', horizontal: 'right' }
+    }));
   };
 
   const handleCloseSnackbar = () => {
-    setSnackbar({ ...snackbar, open: false });
+    setSnackbar((prev) => ({ ...prev, open: false }));
   };
 
   const getTierDisplay = (tier) => {
@@ -403,9 +422,24 @@ export default function MigTable({ refreshTrigger }) {
         open={snackbar.open}
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        anchorOrigin={snackbar.anchorOrigin || { vertical: 'bottom', horizontal: 'right' }}
       >
-        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          sx={{
+            width: '100%',
+            ...(snackbar.message?.includes('Transferring file from Cold tier') && {
+              fontSize: '1.15rem',
+              fontWeight: 600,
+              '& .MuiAlert-message': { fontSize: '1.15rem', fontWeight: 600 },
+              backgroundColor: 'rgba(13, 71, 161, 0.18)',
+              color: '#0d47a1',
+              borderLeft: '4px solid #1565c0',
+              '& .MuiAlert-icon': { color: '#1565c0' }
+            })
+          }}
+        >
           {snackbar.message}
         </Alert>
       </Snackbar>
