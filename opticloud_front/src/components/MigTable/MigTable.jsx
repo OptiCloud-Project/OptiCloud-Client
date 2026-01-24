@@ -130,6 +130,11 @@ export default function MigTable({ refreshTrigger }) {
 
   const handleMigrate = async (file, e) => {
     e.stopPropagation();
+    // Guard clause: prevent migration if already in COLD tier
+    if (file.tier === 'COLD') {
+      showSnackbar('File is already in Cold tier', 'info');
+      return;
+    }
     if (file.isLocked) {
       showSnackbar('File is locked and cannot be migrated', 'warning');
       return;
@@ -324,19 +329,27 @@ export default function MigTable({ refreshTrigger }) {
                         )}
                       </IconButton>
                     </Tooltip>
-                    <Tooltip title="Migrate">
-                      <IconButton
-                        size="small"
-                        onClick={(e) => handleMigrate(file, e)}
-                        disabled={actionLoading[file.id] || file.isLocked}
-                        sx={{ color: '#66898F' }}
-                      >
-                        {actionLoading[file.id] === 'migrate' ? (
-                          <CircularProgress size={16} />
-                        ) : (
-                          <SwapHorizIcon fontSize="small" />
-                        )}
-                      </IconButton>
+                    <Tooltip title={
+                      file.tier === 'COLD' 
+                        ? "File is already optimized (Cold Tier)" 
+                        : file.isLocked 
+                        ? "File is currently locked" 
+                        : "Migrate to Cold Tier"
+                    }>
+                      <span>
+                        <IconButton
+                          size="small"
+                          onClick={(e) => handleMigrate(file, e)}
+                          disabled={actionLoading[file.id] || file.isLocked || file.tier === 'COLD'}
+                          sx={{ color: '#66898F' }}
+                        >
+                          {actionLoading[file.id] === 'migrate' ? (
+                            <CircularProgress size={16} />
+                          ) : (
+                            <SwapHorizIcon fontSize="small" />
+                          )}
+                        </IconButton>
+                      </span>
                     </Tooltip>
                     <Tooltip title="Delete">
                       <IconButton
