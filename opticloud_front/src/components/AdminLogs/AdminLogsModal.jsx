@@ -43,7 +43,8 @@ export default function AdminLogsModal({ open, onClose }) {
     hasScrolledInitialRef.current = true;
   }, [logs]);
 
-  const getLevelColor = (level) => {
+  const getLevelColor = (level, text) => {
+    if (text && text.includes('[Recovery]')) return '#d32f2f';
     if (level === 'error') return '#d32f2f';
     if (level === 'warn') return '#ed6c02';
     return '#ffffff';
@@ -88,7 +89,7 @@ export default function AdminLogsModal({ open, onClose }) {
               component="span"
               sx={{
                 display: 'block',
-                color: getLevelColor(entry.level),
+                color: getLevelColor(entry.level, entry.text),
                 mb: 0.25
               }}
             >
