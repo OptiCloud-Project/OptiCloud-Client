@@ -334,7 +334,7 @@ export default function MigTable({ refreshTrigger }) {
                         ? "File is already optimized (Cold Tier)" 
                         : file.isLocked 
                         ? "File is currently locked" 
-                        : "Migrate to Cold Tier"
+                        : "Migrate"
                     }>
                       <span>
                         <IconButton
