@@ -64,13 +64,23 @@ export default function AdminLogsModal({ open, onClose }) {
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
+    <Dialog 
+      open={open} 
+      onClose={onClose} 
+      maxWidth="lg" 
+      fullWidth
+      sx={{
+        '& .MuiDialog-container': {
+          overflow: 'hidden'
+        }
+      }}
+    >
       <DialogTitle>
         <Typography variant="h6" sx={{ fontWeight: 600, color: '#111718' }}>
           Admin logs
         </Typography>
       </DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
         {error && (
           <Typography color="error" sx={{ mb: 2 }}>
             {error}
@@ -85,7 +95,8 @@ export default function AdminLogsModal({ open, onClose }) {
             color: '#d4d4d4',
             p: 2,
             borderRadius: 1,
-            maxHeight: 60 * 8,
+            flex: 1,
+            minHeight: 0,
             overflow: 'auto',
             whiteSpace: 'pre-wrap',
             wordBreak: 'break-word'
