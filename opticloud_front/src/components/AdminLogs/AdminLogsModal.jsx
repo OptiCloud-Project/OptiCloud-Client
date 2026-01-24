@@ -99,7 +99,22 @@ export default function AdminLogsModal({ open, onClose }) {
             minHeight: 0,
             overflow: 'auto',
             whiteSpace: 'pre-wrap',
-            wordBreak: 'break-word'
+            wordBreak: 'break-word',
+            // Custom scrollbar styling
+            '&::-webkit-scrollbar': {
+              width: '8px',
+            },
+            '&::-webkit-scrollbar-track': {
+              bgcolor: '#F5F5F5',
+              borderRadius: '4px',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              bgcolor: '#66898F',
+              borderRadius: '4px',
+              '&:hover': {
+                bgcolor: '#88A5AA',
+              },
+            },
           }}
         >
           {logs.length === 0 && !error && (
