@@ -22,6 +22,23 @@ export const getFiles = async () => {
 };
 
 /**
+ * Get migration stats (total migrations for fines calculation)
+ * @returns {Promise<{ totalMigrations: number }>}
+ */
+export const getMigrationStats = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/files/stats`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch migration stats');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching migration stats:', error);
+    throw error;
+  }
+};
+
+/**
  * Get file by ID
  * @param {string} id - File ID
  * @returns {Promise<Object>}

@@ -24,6 +24,9 @@ export default function StorageCostDetailsModal({
   files,
   totalCost,
   pricing,
+  totalMigrations = 0,
+  totalFines = 0,
+  finePerMigration = 0.1,
 }) {
   // Calculate cost for each file
   const filesWithCost = files.map((file) => {
@@ -116,6 +119,32 @@ export default function StorageCostDetailsModal({
                   </Typography>
                 </Box>
               ))}
+              {/* Fines - migration penalties */}
+              <Box sx={{ minWidth: 150 }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: 600,
+                    color: "#66898F",
+                    textDecoration: "underline",
+                    textUnderlineOffset: 3,
+                  }}
+                >
+                  Fines:
+                </Typography>
+                <Typography variant="body2" sx={{ color: "#666" }}>
+                  Migrations: {totalMigrations}
+                </Typography>
+                <Typography variant="body2" sx={{ color: "#666" }}>
+                  ${finePerMigration}/migration
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{ color: "#666", fontWeight: 600 }}
+                >
+                  Cost: ${totalFines.toFixed(2)}
+                </Typography>
+              </Box>
             </Box>
           </Paper>
 

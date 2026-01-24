@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { getFiles } from '../../services/api.js';
+import { getFiles, getMigrationStats } from '../../services/api.js';
 import StorageCostDetailsModal from './StorageCostDetailsModal.jsx';
 
 // Pricing per MB
@@ -11,6 +11,9 @@ const PRICING = {
   WARM: 3,   // $3 per MB
   COLD: 1    // $1 per MB
 };
+
+// Fine per migration between tiers ($)
+const FINE_PER_MIGRATION = 0.1;
 
 // Helper function to convert bytes to MB
 const bytesToMB = (bytes) => {
@@ -21,6 +24,8 @@ const bytesToMB = (bytes) => {
 export default function StorageCostDisplay() {
   const [totalCost, setTotalCost] = useState(0);
   const [files, setFiles] = useState([]);
+  const [totalMigrations, setTotalMigrations] = useState(0);
+  const [totalFines, setTotalFines] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -33,26 +38,25 @@ export default function StorageCostDisplay() {
 
   const fetchFilesAndCalculate = async () => {
     try {
-      const filesData = await getFiles();
+      const [filesData, migrationStats] = await Promise.all([
+        getFiles(),
+        getMigrationStats()
+      ]);
       setFiles(filesData);
-      
-      // Calculate total cost
-      let total = 0;
-      const filesWithCost = filesData.map(file => {
-        // Use sizeBytes if available, otherwise parse from size string
+      setTotalMigrations(migrationStats.totalMigrations || 0);
+      const fines = (migrationStats.totalMigrations || 0) * FINE_PER_MIGRATION;
+      setTotalFines(fines);
+
+      // Calculate tier cost
+      let tierTotal = 0;
+      filesData.forEach(file => {
         const sizeInBytes = file.sizeBytes || 0;
         const sizeInMB = bytesToMB(sizeInBytes);
         const tier = file.tier || 'HOT';
-        const cost = sizeInMB * PRICING[tier];
-        total += cost;
-        return {
-          ...file,
-          sizeInMB,
-          cost
-        };
+        tierTotal += sizeInMB * PRICING[tier];
       });
-      
-      setTotalCost(total);
+
+      setTotalCost(tierTotal + fines);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching files for cost calculation:', error);
@@ -103,6 +107,9 @@ export default function StorageCostDisplay() {
         files={files}
         totalCost={totalCost}
         pricing={PRICING}
+        totalMigrations={totalMigrations}
+        totalFines={totalFines}
+        finePerMigration={FINE_PER_MIGRATION}
       />
     </>
   );
