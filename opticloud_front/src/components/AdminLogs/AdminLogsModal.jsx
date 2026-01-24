@@ -14,9 +14,13 @@ export default function AdminLogsModal({ open, onClose }) {
   const [logs, setLogs] = useState([]);
   const [error, setError] = useState(null);
   const scrollRef = useRef(null);
+  const hasScrolledInitialRef = useRef(false);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      hasScrolledInitialRef.current = false;
+      return;
+    }
 
     const fetchLogs = async () => {
       try {
@@ -34,9 +38,9 @@ export default function AdminLogsModal({ open, onClose }) {
   }, [open]);
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
+    if (!scrollRef.current || logs.length === 0 || hasScrolledInitialRef.current) return;
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    hasScrolledInitialRef.current = true;
   }, [logs]);
 
   const getLevelColor = (level) => {
