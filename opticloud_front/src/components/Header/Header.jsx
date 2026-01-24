@@ -1,10 +1,12 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import logo from '../../assets/OptiCloud_Logo.png';
 import UserInHeader from './UserInHeader/UserInHeader.jsx';
 import StorageCostDisplay from '../StorageCost/StorageCostDisplay.jsx';
+import AdminLogsModal from '../AdminLogs/AdminLogsModal.jsx';
 
 import {
   NavAppBar,
@@ -17,6 +19,8 @@ import {
 const pages = ['Dashboard'];
 
 function Header() {
+  const [adminLogsOpen, setAdminLogsOpen] = React.useState(false);
+
   const handleCloseNavMenu = () => {
     // Handler for nav menu
   };
@@ -52,9 +56,22 @@ function Header() {
               <StorageCostDisplay />
             </Box>
 
-            {/* Right: User info */}
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <UserInHeader></UserInHeader>
+            {/* Right: Admin logs + User info */}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Button
+                variant="contained"
+                onClick={() => setAdminLogsOpen(true)}
+                sx={{
+                  textTransform: 'none',
+                  backgroundColor: '#f9a825',
+                  color: '#111718',
+                  fontWeight: 600,
+                  '&:hover': { backgroundColor: '#f57f17' }
+                }}
+              >
+                Admin logs
+              </Button>
+              <UserInHeader />
             </Box>
           </Toolbar>
         </Container>
@@ -65,6 +82,10 @@ function Header() {
         </LineStyle>
       </NavAppBar>
 
+      <AdminLogsModal
+        open={adminLogsOpen}
+        onClose={() => setAdminLogsOpen(false)}
+      />
     </>
   );
 }

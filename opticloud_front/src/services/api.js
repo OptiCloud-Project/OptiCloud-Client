@@ -22,6 +22,23 @@ export const getFiles = async () => {
 };
 
 /**
+ * Get admin/backend logs (terminal output)
+ * @returns {Promise<{ logs: Array<{ ts: string, level: string, text: string }> }>}
+ */
+export const getLogs = async () => {
+  try {
+    const base = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+    const url = base.replace(/\/api\/?$/, '') + '/api/logs';
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Failed to fetch logs');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching logs:', error);
+    throw error;
+  }
+};
+
+/**
  * Get migration stats (total migrations for fines calculation)
  * @returns {Promise<{ totalMigrations: number }>}
  */
