@@ -42,7 +42,6 @@ export default function MigTable({ refreshTrigger }) {
     anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
   });
   const [actionLoading, setActionLoading] = useState({});
-  const [processingFileIds, setProcessingFileIds] = useState([]);
 
   // Fetch files on component mount and when refreshTrigger changes
   useEffect(() => {
@@ -136,9 +135,7 @@ export default function MigTable({ refreshTrigger }) {
       return;
     }
     
-    // Add fileId to processing array
-    setProcessingFileIds((prev) => [...prev, file.id]);
-    
+    setActionLoading({ ...actionLoading, [file.id]: 'migrate' });
     try {
       await migrateFile(file.id);
       showSnackbar('Migration started successfully', 'success');
@@ -147,8 +144,7 @@ export default function MigTable({ refreshTrigger }) {
     } catch (err) {
       showSnackbar(err.message || 'Failed to start migration', 'error');
     } finally {
-      // Remove fileId from processing array
-      setProcessingFileIds((prev) => prev.filter((id) => id !== file.id));
+      setActionLoading({ ...actionLoading, [file.id]: null });
     }
   };
 
@@ -332,11 +328,11 @@ export default function MigTable({ refreshTrigger }) {
                       <IconButton
                         size="small"
                         onClick={(e) => handleMigrate(file, e)}
-                        disabled={processingFileIds.includes(file.id) || file.isLocked}
+                        disabled={actionLoading[file.id] || file.isLocked}
                         sx={{ color: '#66898F' }}
                       >
-                        {processingFileIds.includes(file.id) ? (
-                          <CircularProgress size={20} />
+                        {actionLoading[file.id] === 'migrate' ? (
+                          <CircularProgress size={16} />
                         ) : (
                           <SwapHorizIcon fontSize="small" />
                         )}
