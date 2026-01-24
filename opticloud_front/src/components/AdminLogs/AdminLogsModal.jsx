@@ -48,7 +48,7 @@ export default function AdminLogsModal({ open, onClose }) {
     if (text && text.toLowerCase().includes('checksum')) return '#60B360';
     if (level === 'error') return '#d32f2f';
     if (level === 'warn') return '#ed6c02';
-    return '#ffffff';
+    return '#111718';
   };
 
   const getColoredFragments = (str) => {
@@ -91,8 +91,8 @@ export default function AdminLogsModal({ open, onClose }) {
           sx={{
             fontFamily: 'monospace',
             fontSize: '0.8rem',
-            bgcolor: '#1e1e1e',
-            color: '#d4d4d4',
+            bgcolor: '#F5F5F5',
+            color: '#111718',
             p: 2,
             borderRadius: 1,
             flex: 1,
