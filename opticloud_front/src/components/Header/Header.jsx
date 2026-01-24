@@ -59,10 +59,14 @@ function Header() {
             {/* Right: Admin logs + User info */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Button
+                size="small"
                 variant="contained"
                 onClick={() => setAdminLogsOpen(true)}
                 sx={{
                   textTransform: 'none',
+                  fontSize: '0.8rem',
+                  py: 0.5,
+                  px: 1.5,
                   backgroundColor: '#f9a825',
                   color: '#111718',
                   fontWeight: 600,
