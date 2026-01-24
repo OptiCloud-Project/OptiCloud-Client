@@ -42,7 +42,7 @@ export default function AdminLogsModal({ open, onClose }) {
   const getLevelColor = (level) => {
     if (level === 'error') return '#d32f2f';
     if (level === 'warn') return '#ed6c02';
-    return '#333';
+    return '#ffffff';
   };
 
   return (
