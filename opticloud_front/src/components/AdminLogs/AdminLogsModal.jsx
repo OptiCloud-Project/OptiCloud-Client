@@ -45,7 +45,7 @@ export default function AdminLogsModal({ open, onClose }) {
 
   const getLevelColor = (level, text) => {
     if (text && text.includes('[Recovery]')) return '#ff0000';
-    if (text && text.toLowerCase().includes('checksum')) return '#60B360';
+    if (text && text.toLowerCase().includes('checksum')) return '#439543';
     if (level === 'error') return '#d32f2f';
     if (level === 'warn') return '#ed6c02';
     return '#111718';

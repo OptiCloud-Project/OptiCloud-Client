@@ -81,7 +81,7 @@ export default function StorageCostDisplay() {
       <Button
         onClick={handleClick}
         sx={{
-          color: '#2e7d32',
+          color: '#557377',
           textTransform: 'none',
           fontSize: '0.875rem',
           '&:hover': {
