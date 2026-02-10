@@ -1,14 +1,14 @@
-# 🔧 פתרון בעיית 504 - Outdated Optimize Dep
+# 🔧 Fix for 504 Error - Outdated Optimize Dep
 
-## הבעיה:
-Vite לא מצליח לטעון את ה-dependencies של MUI בגלל בעיה ב-optimization cache.
+## The Problem:
+Vite cannot load MUI dependencies due to an optimization cache issue.
 
-## הפתרון:
+## The Solution:
 
-### שלב 1: עצור את השרת
-לחץ `Ctrl+C` בטרמינל שבו רץ ה-Frontend
+### Step 1: Stop the Server
+Press `Ctrl+C` in the terminal where the Frontend is running
 
-### שלב 2: מחק את ה-cache של Vite
+### Step 2: Delete Vite's Cache
 
 **Windows (PowerShell/CMD):**
 ```bash
@@ -16,7 +16,7 @@ cd OptiCloud-Client/opticloud_front
 rmdir /s /q node_modules\.vite
 ```
 
-**או Windows (PowerShell):**
+**Or Windows (PowerShell):**
 ```powershell
 cd OptiCloud-Client/opticloud_front
 Remove-Item -Recurse -Force node_modules\.vite
@@ -28,48 +28,48 @@ cd OptiCloud-Client/opticloud_front
 rm -rf node_modules/.vite
 ```
 
-### שלב 3: הרץ מחדש עם --force
+### Step 3: Restart with --force
 
 ```bash
 npm run dev
 ```
 
-או:
+Or:
 
 ```bash
 npx vite --force
 ```
 
-### שלב 4: אם עדיין לא עובד
+### Step 4: If Still Not Working
 
-נסה למחוק את כל ה-node_modules ולהתקין מחדש:
+Try deleting all node_modules and reinstalling:
 
 ```bash
-# עצור את השרת (Ctrl+C)
+# Stop the server (Ctrl+C)
 
-# מחק node_modules
+# Delete node_modules
 rmdir /s /q node_modules  # Windows
-# או
+# or
 rm -rf node_modules      # Mac/Linux
 
-# מחק package-lock.json
+# Delete package-lock.json
 del package-lock.json    # Windows
-# או
+# or
 rm package-lock.json     # Mac/Linux
 
-# התקן מחדש
+# Reinstall
 npm install
 
-# הרץ
+# Run
 npm run dev
 ```
 
 ---
 
-## מה עשיתי בקוד:
+## What I Changed in the Code:
 
-1. ✅ הוספתי `optimizeDeps.force: true` ל-vite.config.js
-2. ✅ הוספתי `--force` ל-script של dev
-3. ✅ הוספתי explicit include ל-MUI dependencies
+1. ✅ Added `optimizeDeps.force: true` to vite.config.js
+2. ✅ Added `--force` to the dev script
+3. ✅ Added explicit include for MUI dependencies
 
-עכשיו נסה להריץ מחדש!
+Now try running it again!

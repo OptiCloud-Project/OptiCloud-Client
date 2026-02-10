@@ -1,33 +1,33 @@
-# הוראות הרצה - OptiCloud Frontend
+# Setup Instructions - OptiCloud Frontend
 
-## שלב 1: הגדרת API URL
+## Step 1: API URL Setup
 
-1. צור קובץ `.env` בתיקיית `opticloud_front` (אם עדיין לא יצרת)
-2. הוסף:
+1. Create a `.env` file in the `opticloud_front` directory (if you haven't already)
+2. Add:
 
 ```env
 VITE_API_URL=http://localhost:3001/api
 ```
 
-## שלב 2: התקנת Dependencies
+## Step 2: Install Dependencies
 
 ```bash
 cd OptiCloud-Client/opticloud_front
 npm install
 ```
 
-## שלב 3: הרצת Frontend
+## Step 3: Run Frontend
 
 ```bash
 npm run dev
 ```
 
-ה-Frontend ירוץ על: `http://localhost:5173` (או פורט אחר ש-Vite יבחר)
+The Frontend will run on: `http://localhost:5173` (or another port that Vite chooses)
 
-## בניית Production
+## Production Build
 
 ```bash
 npm run build
 ```
 
-הקבצים יבנו בתיקיית `dist/`
+The files will be built in the `dist/` directory
